@@ -27,10 +27,13 @@ dependencies:
     sdk: flutter
 
   # di
-  get_it: ^5.0.4
+  get_it: ^5.0.1
 
-  # storage
-  shared_preferences: ^0.5.12+4
+  # string
+  quiver: ^2.1.5
+
+  # url launch
+  url_launcher: ^5.7.10
 
   # networking
   dio: ^3.0.10

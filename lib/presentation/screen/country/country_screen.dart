@@ -1,5 +1,32 @@
+import 'package:elinext_test_task/domain/base/bloc.dart';
+import 'package:elinext_test_task/domain/base/bloc_screen.dart';
+import 'package:elinext_test_task/presentation/screen/app/app_page.dart';
+import 'package:elinext_test_task/presentation/screen/country/country_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+class CountryScreen extends BlocScreen {
+  static const ROUTE_NAME = '/CountryScreen';
+
+  static page() => AppPage(
+        key: Key(ROUTE_NAME),
+        name: ROUTE_NAME,
+        builder: (context) => CountryScreen(),
+      );
+
+  @override
+  _CountryScreenState createState() => _CountryScreenState();
+}
+
+class _CountryScreenState extends BlocScreenState<CountryScreen, CountryBloc> {
+  _CountryScreenState() : super(GetIt.I.get<CountryBloc>());
+
+  @override
+  Widget build(BuildContext context) {
+    return MyHomePage();
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

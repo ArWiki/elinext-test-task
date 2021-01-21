@@ -1,6 +1,7 @@
 import 'package:elinext_test_task/presentation/di/app_injector.dart';
 import 'package:flutter/material.dart';
 
+import 'presentation/screen/app/app.dart';
 import 'presentation/screen/country/country_screen.dart';
 
 Future<void> main() async {
@@ -9,7 +10,7 @@ Future<void> main() async {
 
   await initInjector();
 
-  runApp(MyApp());
+  runApp(CountryScreen());
 
 }
 
