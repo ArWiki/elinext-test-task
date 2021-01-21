@@ -19,7 +19,7 @@ abstract class ApiBaseServiceImp implements ApiBaseService {
   @override
   Future<Response<T>> get<T>(
     String path, {
-    bool isResponseBytes,
+    bool isResponseBytes = false,
     Map<String, dynamic> queryParameters,
     Options options,
     CancelToken cancelToken,

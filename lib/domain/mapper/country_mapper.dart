@@ -9,24 +9,28 @@ class CountryMapperImpl implements CountryMapper {
   @override
   Country toCountry(ApiLoadCountryResponse response) {
     final data = response;
-    final dataArticles = response.articles;
-    final dataArticlesSource = response.articles.source;
+    final list = List<CountryArticles>();
+    response?.articles?.forEach((element) {
+      list.add(
+        CountryArticles(
+          CountryArticlesSource(
+            element.source.id,
+            element.source.name,
+          ),
+          element.author,
+          element.title,
+          element.description,
+          element.url,
+          element.urlToImage,
+          element.publishedAt,
+          element.content,
+        ),
+      );
+    });
     return Country(
       data?.status,
       data?.totalResults,
-      CountryArticles(
-          CountryArticlesSource(
-            dataArticlesSource?.id,
-            dataArticlesSource?.name,
-          ),
-          dataArticles?.author,
-          dataArticles?.title,
-          dataArticles?.description,
-          dataArticles?.url,
-          dataArticles?.urlToImage,
-          dataArticles?.publishedAt,
-          dataArticles?.content,
-      ),
+      list,
     );
   }
 }

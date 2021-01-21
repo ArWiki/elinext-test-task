@@ -1,7 +1,7 @@
 class Country {
   final String status;
   final int totalResults;
-  final CountryArticles articles;
+  final List<CountryArticles> articles;
 
   Country(
     this.status,

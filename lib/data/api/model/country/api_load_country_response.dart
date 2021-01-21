@@ -1,7 +1,9 @@
+import 'dart:collection';
+
 class ApiLoadCountryResponse {
   final status;
   final totalResults;
-  final ApiLoadCountryArticlesResponse articles;
+  final List<ApiLoadCountryArticlesResponse> articles;
 
   ApiLoadCountryResponse(
     this.status,
@@ -44,31 +46,40 @@ class ApiLoadCountryArticlesResponse {
     this.urlToImage,
     this.publishedAt,
     this.content,
-    Map<String, dynamic> json,
+    List<dynamic> json,
   );
 
-  static ApiLoadCountryArticlesResponse fromJson(Map<String, dynamic> json) {
-    final source = json['source'];
-    final author = json['author'];
-    final title = json['title'];
-    final description = json['description'];
-    final url = json['url'];
-    final urlToImage = json['urlToImage'];
-    final publishedAt = json['publishedAt'];
-    final content = json['content'];
-    return ApiLoadCountryArticlesResponse(
-      source == null
-          ? null
-          : ApiLoadCountryArticlesSourceResponse.fromJson(source),
-      author,
-      title,
-      description,
-      url,
-      urlToImage,
-      publishedAt,
-      content,
-      json,
-    );
+  static List<ApiLoadCountryArticlesResponse> fromJson(
+      List<dynamic> json) {
+    final list = List<ApiLoadCountryArticlesResponse>();
+
+    json.forEach((element) {
+      final source = element['source'];
+      final author = element['author'];
+      final title = element['title'];
+      final description = element['description'];
+      final url = element['url'];
+      final urlToImage = element['urlToImage'];
+      final publishedAt = element['publishedAt'];
+      final content = element['content'];
+      list.add(
+        ApiLoadCountryArticlesResponse(
+          source == null
+              ? null
+              : ApiLoadCountryArticlesSourceResponse.fromJson(source),
+          author,
+          title,
+          description,
+          url,
+          urlToImage,
+          publishedAt,
+          content,
+          json,
+        ),
+      );
+    });
+
+    return list;
   }
 }
 
