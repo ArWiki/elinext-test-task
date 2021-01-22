@@ -3,7 +3,7 @@ import 'package:elinext_test_task/data/api/service/ApiService.dart';
 import 'package:elinext_test_task/data/utils/const.dart';
 
 abstract class ApiCountryRepository {
-  Future<ApiLoadCountryResponse> loadCountryNews();
+  Future<ApiLoadCountryResponse> loadCountryNews(int countNews);
 }
 
 class ApiCountryRepositoryImpl implements ApiCountryRepository {
@@ -12,7 +12,7 @@ class ApiCountryRepositoryImpl implements ApiCountryRepository {
   ApiCountryRepositoryImpl(this._apiService);
 
   @override
-  Future<ApiLoadCountryResponse> loadCountryNews() => _apiService
-      .get(C.getCountry(5))
+  Future<ApiLoadCountryResponse> loadCountryNews(int countNews) => _apiService
+      .get(C.getCountry(countNews))
       .then((value) => ApiLoadCountryResponse.fromJson(value.data));
 }

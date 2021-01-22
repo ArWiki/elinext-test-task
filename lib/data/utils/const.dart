@@ -13,4 +13,7 @@ class C {
       _V2 +
       'top-headlines?country=us&pageSize=$page&apiKey=' +
       _API_KEY;
+
+  ///region database
+  static const TABLE_COUNTRY = 'country';
 }

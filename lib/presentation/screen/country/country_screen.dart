@@ -18,7 +18,7 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  final _bloc = CountryBloc();
+  final _bloc = CountryBlocImpl();
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +46,13 @@ class _CountryScreenState extends State<CountryScreen> {
                     },
                   ),
                   onRefresh: () async {
-                    _bloc.counterEventSink.add(OnCountryRefresh());
+                    _bloc.countryEventSink.add(OnCountryRefresh());
                   },
                 );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _bloc.counterEventSink.add(OpenCountryFavourite()),
-        tooltip: 'Increment',
+        onPressed: () => Navigator.pushNamed(context, '/CountryFavourites'),
         child: Icon(Icons.star_rate),
       ),
     );
@@ -113,62 +112,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _bloc.dispose();
+    super.dispose();
   }
 }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   final _bloc = CountryBloc();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: Center(
-//         child: StreamBuilder(
-//           stream: _bloc.counter,
-//           initialData: 0,
-//           builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-//             return Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: <Widget>[
-//                 Text(
-//                   'You have pushed the button this many times:',
-//                 ),
-//                 Text(
-//                   '${snapshot.data}',
-//                   style: Theme.of(context).textTheme.display1,
-//                 ),
-//               ],
-//             );
-//           },
-//         ),
-//       ),
-//       floatingActionButton: Row(
-//         mainAxisAlignment: MainAxisAlignment.end,
-//         children: <Widget>[
-//           FloatingActionButton(
-//             onPressed: () => _bloc.counterEventSink.add(IncrementEvent()),
-//             tooltip: 'Increment',
-//             child: Icon(Icons.add),
-//           ),
-//           SizedBox(width: 10),
-//           FloatingActionButton(
-//             onPressed: () => _bloc.counterEventSink.add(DecrementEvent()),
-//             tooltip: 'Decrement',
-//             child: Icon(Icons.remove),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _bloc.dispose();
-//   }
-// }

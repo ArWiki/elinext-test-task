@@ -8,24 +8,24 @@ class CountryTile {
   final String publishedAt;
   final String content;
 
-  CountryTile(
-      this.source,
-      this.author,
-      this.title,
-      this.description,
-      this.url,
-      this.urlToImage,
-      this.publishedAt,
-      this.content,
-      );
+  CountryTile({
+    this.source,
+    this.author,
+    this.title,
+    this.description,
+    this.url,
+    this.urlToImage,
+    this.publishedAt,
+    this.content,
+  });
 }
 
 class CountrySourceTile {
   final String id;
   final String name;
 
-  CountrySourceTile(
-      this.id,
-      this.name,
-      );
+  CountrySourceTile({
+    this.id,
+    this.name,
+  });
 }

@@ -41,6 +41,9 @@ dependencies:
   # SQLite
   sqflite: ^1.3.0
 
+  # path
+  path: ^1.7.0
+
   # networking
   dio: ^3.0.10
   pretty_dio_logger: ^1.1.1

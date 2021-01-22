@@ -1,4 +1,7 @@
+import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 import 'presentation/screen/country/country_screen.dart';
 import 'presentation/screen/router/app_router.dart';
 
@@ -9,7 +12,18 @@ Future<void> main() async {
 
   //await initInjector();
 
+  await _initDatabase();
+
   runApp(App(AppRouter()));
+}
+
+_initDatabase() async {
+  var databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, C.DATABASE_NAME);
+  Database database = await openDatabase(path, version: 1,
+      onCreate: (Database db, int version) async {
+    await db.execute(C.TABLE_INIT);
+  });
 }
 
 class App extends StatelessWidget {

@@ -14,17 +14,17 @@ class CountryViewMapperImpl implements CountryViewMapper {
       (element) {
         list.add(
           CountryTile(
-            CountrySourceTile(
-              element.source.id,
-              element.source.name,
+            source: CountrySourceTile(
+              id: element.source.id,
+              name: element.source.name,
             ),
-            element.author,
-            element.title,
-            element.description,
-            element.url,
-            element.urlToImage,
-            element.publishedAt,
-            element.content,
+            author: element.author,
+            title: element.title,
+            description: element.description,
+            url: element.url,
+            urlToImage: element.urlToImage,
+            publishedAt: element.publishedAt,
+            content: element.content,
           ),
         );
       },

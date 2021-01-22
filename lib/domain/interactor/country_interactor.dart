@@ -3,7 +3,7 @@ import 'package:elinext_test_task/domain/mapper/country_mapper.dart';
 import 'package:elinext_test_task/domain/model/country/country.dart';
 
 abstract class CountryInteractor {
-  Future<Country> getCountryNews();
+  Future<Country> getCountryNews(int countNews);
 }
 
 class CountryInteractorImpl implements CountryInteractor {
@@ -16,8 +16,8 @@ class CountryInteractorImpl implements CountryInteractor {
   );
 
   @override
-  Future<Country> getCountryNews() async {
-    final response = await _apiRepository.loadCountryNews();
+  Future<Country> getCountryNews(int countNews) async {
+    final response = await _apiRepository.loadCountryNews(countNews);
     return _mapper.toCountry(response);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'country_details_bloc.dart';
 import 'country_details_event.dart';
+import 'tile/country_details_tile.dart';
 
 class CountryDetailsScreen extends StatefulWidget {
   CountryDetailsScreen({
@@ -29,21 +30,34 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
   final _bloc = CountryDescriptionBlocImpl();
 
   @override
+  void initState() {
+    _bloc.countryDescriptionEventSink.add(Init(tile));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: tile == null
-          ? Container(
-              height: 0.0,
-              width: 0.0,
-            )
-          : _tile(tile),
+      body: StreamBuilder(
+        stream: _bloc.countryDetails,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          final CountryDetailsTile tile = snapshot.data;
+
+          return tile == null
+              ? Container(
+                  height: 0.0,
+                  width: 0.0,
+                )
+              : _tile(tile);
+        },
+      ),
     );
   }
 
-  _tile(CountryTile tile) {
+  _tile(CountryDetailsTile tile) {
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Container(
@@ -67,12 +81,14 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                     width: 0.0,
                     height: 0.0,
                   )
-                : Column(
-                    children: [
-                      _header(tile),
-                      _mainContent(tile),
-                      _footer(tile),
-                    ],
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        _header(tile),
+                        _mainContent(tile),
+                        _footer(tile),
+                      ],
+                    ),
                   ),
           ),
         ),
@@ -80,7 +96,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
     );
   }
 
-  Widget _header(CountryTile tile) {
+  Widget _header(CountryDetailsTile tile) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +121,19 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                   ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Container(
-                child: Icon(Icons.star_border),
+              child: GestureDetector(
+                onTap: () => _bloc.countryDescriptionEventSink.add(
+                  Favourite(
+                    tile.isFavourite,
+                  ),
+                ),
+                child: tile.isFavourite
+                    ? Container(
+                        child: Icon(Icons.star_rate),
+                      )
+                    : Container(
+                        child: Icon(Icons.star_border),
+                      ),
               ),
             ),
           ],
@@ -129,27 +156,25 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
     );
   }
 
-  Widget _mainContent(CountryTile tile) {
+  Widget _mainContent(CountryDetailsTile tile) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         tile.urlToImage == null
-            ? Container(
-                width: 0.0,
-                height: 0.0,
+            ? Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                child: Image.asset(
+                  AppImages.no_image_available,
+                ),
               )
             : Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                child: tile.urlToImage == null
-                    ? Image.asset(
-                        AppImages.no_image_available,
-                      )
-                    : Image.network(
-                        tile.urlToImage,
-                        //style: AppTextStyles.greyDark12(),
-                      ),
+                child: Image.network(
+                  tile.urlToImage,
+                  //style: AppTextStyles.greyDark12(),
+                ),
               ),
         tile.description == null
             ? Container(
@@ -187,8 +212,8 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
             : Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: GestureDetector(
-                  onTap: () => _bloc.counterEventSink
-                      .add(OpenCountryDescriptionNews(tile.url)),
+                  onTap: () => _bloc.countryDescriptionEventSink
+                      .add(OpenCountryDetailsNews(tile.url)),
                   child: Text(
                     tile.url,
                     style: AppTextStyles.blue14(
@@ -202,7 +227,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
     );
   }
 
-  Widget _footer(CountryTile tile) {
+  Widget _footer(CountryDetailsTile tile) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -250,7 +275,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _bloc.dispose();
+    super.dispose();
   }
 }

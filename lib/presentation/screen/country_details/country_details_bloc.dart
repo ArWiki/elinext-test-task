@@ -1,65 +1,94 @@
 import 'dart:async';
-
+import 'package:elinext_test_task/data/api/repository/db/db_country_details_repository.dart';
+import 'package:elinext_test_task/data/api/service/DbService.dart';
+import 'package:elinext_test_task/domain/interactor/country_description_interactor.dart';
+import 'package:elinext_test_task/domain/mapper/country_description_mapper.dart';
+import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
+import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/strings.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'country_details_event.dart';
+import 'country_details_view_mapper.dart';
+import 'tile/country_details_tile.dart';
 
 abstract class CountryDescriptionBloc {
-  Sink<CountryDescriptionEvent> get counterEventSink;
+  Sink<CountryDetailsEvent> get countryDescriptionEventSink;
+
+  StreamSink<dynamic> get _inCountryDetails;
+
+  void init(CountryTile tile);
 
   void dispose();
 }
 
 class CountryDescriptionBlocImpl extends CountryDescriptionBloc {
-  /*static Dio dio = Dio();
-  static ApiService _apiService = ApiServiceImpl(dio);
-  static ApiCountryRepository _apiCountryRepository =
-  ApiCountryRepositoryImpl(_apiService);
-  static CountryMapper _countryMapper = CountryMapperImpl();
-  final CountryInteractor _countryInteractor =
-  CountryInteractorImpl(_apiCountryRepository, _countryMapper);*/
+  static Database db;
+  static DbService _dbService;
+  static DbCountryDetailsRepository _dbCountryDetailsRepository;
+  static CountryDescriptionMapper _countryDescriptionMapper;
+  static CountryDescriptionInteractor _countryDescriptionInteractor;
 
-  //final CountryViewMapper _viewMapper = CountryViewMapperImpl();
+  var tileNews = CountryDetailsTile();
 
-/*  final list = List<CountryTile>();
+  final CountryDetailsViewMapper _viewMapper = CountryDetailsViewMapperImpl();
 
   final _countryStateController = StreamController<dynamic>();
 
-  StreamSink<dynamic> get _inCountry => _countryStateController.sink;
+  final _countryEventController = StreamController<CountryDetailsEvent>();
 
-  Stream<dynamic> get country => _countryStateController.stream;*/
+  Sink<CountryDetailsEvent> get countryDescriptionEventSink =>
+      _countryEventController.sink;
 
-  Sink<CountryDescriptionEvent> get counterEventSink => _countryEventController.sink;
+  Stream<dynamic> get countryDetails => _countryStateController.stream;
 
-  final _countryEventController = StreamController<CountryDescriptionEvent>();
+  StreamSink<dynamic> get _inCountryDetails => _countryStateController.sink;
 
   CountryDescriptionBlocImpl() {
+    //init();
     _countryEventController.stream.listen(_mapEventToState);
-    //_getCountryNews();
   }
 
-  _getCountryNews() async {
-   /* final countryNews = await _countryInteractor.getCountryNews();
-
-    list.clear();
-    list.addAll(
-      _viewMapper.toItemList(countryNews),
-    );
-
-    _inCountry.add(list);*/
+  @override
+  init(CountryTile tile) async {
+    await openDatabase(C.DATABASE_NAME).then((value) => {
+          db = value,
+          _dbService = DbServiceImpl(db),
+          _dbCountryDetailsRepository =
+              DbCountryDetailsRepositoryImpl(_dbService),
+          _countryDescriptionMapper = CountryDescriptionMapperImpl(),
+          _countryDescriptionInteractor = CountryDescriptionInteractorImpl(
+              _dbCountryDetailsRepository, _countryDescriptionMapper),
+          //_viewMapper = CountryDetailsViewMapperImpl(),
+          _checkInDb(tile),
+        });
   }
 
-  void _mapEventToState(CountryDescriptionEvent event) {
-    if (event is OpenCountryDescriptionNews) {
-      //_counter++;
+  _checkInDb(CountryTile tile) async {
+    final dbTile = await _countryDescriptionInteractor.getNews(tile);
+    tileNews = _viewMapper.toCountryDetailsTile(dbTile, tile);
+    _inCountryDetails.add(tileNews);
+  }
+
+  void _mapEventToState(CountryDetailsEvent event) {
+    if (event is OpenCountryDetailsNews) {
       _launchURL(event.url);
-    } else {
-      //_counter--;
+    } else if (event is Init) {
+      init(event.tile);
+    } else if (event is Favourite) {
+      _changeDataInDb(event.isFavourite);
     }
+  }
 
-    //_inCounter.add(_counter);
+  _changeDataInDb(bool isFavourite) async {
+    if (isFavourite) {
+      final dbTile = await _countryDescriptionInteractor.deleteNews(tileNews);
+      tileNews.isFavourite = false;
+    } else {
+      final dbTile = await _countryDescriptionInteractor.insertNews(tileNews);
+      tileNews.isFavourite = true;
+    }
+    _inCountryDetails.add(tileNews);
   }
 
   @protected
@@ -73,8 +102,9 @@ class CountryDescriptionBlocImpl extends CountryDescriptionBloc {
   }
 
   @override
-  void dispose() {
-  /*  _countryStateController.close();*/
+  Future<void> dispose() async {
+    await db.close();
     _countryEventController.close();
+    _countryStateController.close();
   }
 }
