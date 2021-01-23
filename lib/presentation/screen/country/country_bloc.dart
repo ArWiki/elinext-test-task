@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:elinext_test_task/domain/interactor/country_interactor.dart';
 import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:get_it/get_it.dart';
-
 import 'country_event.dart';
 import 'country_view_mapper.dart';
 import 'tile/country_tile.dart';
@@ -18,7 +17,6 @@ abstract class CountryBloc {
 }
 
 class CountryBlocImpl extends CountryBloc {
-
   final list = List<CountryTile>();
 
   final _countryStateController = StreamController<dynamic>();
@@ -40,7 +38,8 @@ class CountryBlocImpl extends CountryBloc {
   }
 
   _getCountryNews() async {
-    final countryNews = await GetIt.I.get<CountryInteractor>()
+    final countryNews = await GetIt.I
+        .get<CountryInteractor>()
         .getCountryNews(list.length + C.DEFAULT_COUNT_NEWS);
 
     list.clear();

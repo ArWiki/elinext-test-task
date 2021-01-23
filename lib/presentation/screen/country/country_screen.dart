@@ -1,3 +1,4 @@
+import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:elinext_test_task/presentation/utils/images.dart';
 import 'package:elinext_test_task/presentation/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'country_bloc.dart';
 import 'country_event.dart';
 import 'tile/country_tile.dart';
@@ -63,7 +63,8 @@ class _CountryScreenState extends State<CountryScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/CountryFavorites'),
+        onPressed: () =>
+            Navigator.pushNamed(context, C.NAVIGATOR_ROUTER_FAVORITES),
         child: Icon(Icons.star_rate),
       ),
     );
@@ -71,8 +72,8 @@ class _CountryScreenState extends State<CountryScreen> {
 
   _listTile(CountryTile tile) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, '/CountryDetails', arguments: tile),
+      onTap: () => Navigator.pushNamed(context, C.NAVIGATOR_ROUTER_DETAILS,
+          arguments: tile),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Container(

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:elinext_test_task/domain/interactor/country_favourites_interactor.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:elinext_test_task/presentation/utils/const.dart';

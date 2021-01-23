@@ -12,7 +12,7 @@ class C {
   static const TABLE_COUNTRY_URL = 'url';
   static const TABLE_COUNTRY_URL_TO_IMAGE = 'urlToImage';
   static const TABLE_COUNTRY_PUBLISHED_AT = 'publishedAt';
-  static const TABLE_COUNTRY_CONTENT= 'content';
+  static const TABLE_COUNTRY_CONTENT = 'content';
 
 
   static const TABLE_INIT = 'CREATE TABLE ' +
@@ -30,4 +30,18 @@ class C {
 
   ///region page
   static const DEFAULT_COUNT_NEWS = 5;
+
+  ///app
+  static const APP_NAME = 'Elinext test task';
+  static const EMPTY = 'Empty';
+
+  ///router title
+  static const ROUTER_MAIN = 'Main';
+  static const ROUTER_DETAILS = 'Details';
+  static const ROUTER_FAVORITES = 'Favorites';
+
+  ///router navigator
+  static const NAVIGATOR_ROUTER_MAIN = '/';
+  static const NAVIGATOR_ROUTER_DETAILS = '/CountryDetails';
+  static const NAVIGATOR_ROUTER_FAVORITES = '/CountryFavorites';
 }

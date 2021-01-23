@@ -21,7 +21,6 @@ abstract class CountryDetailsBloc {
 }
 
 class CountryDetailsBlocImpl extends CountryDetailsBloc {
-
   var tileNews = CountryDetailsTile();
 
   final _countryStateController = StreamController<dynamic>();
@@ -44,8 +43,11 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
 
   @override
   init(CountryTile tile) async {
-    final dbTile = await GetIt.I.get<CountryDescriptionInteractor>().getNews(tile);
-    tileNews = GetIt.I.get<CountryDetailsViewMapper>().toCountryDetailsTile(dbTile, tile);
+    final dbTile =
+        await GetIt.I.get<CountryDescriptionInteractor>().getNews(tile.title);
+    tileNews = GetIt.I
+        .get<CountryDetailsViewMapper>()
+        .toCountryDetailsTile(dbTile, tile);
     _inCountryDetails.add(tileNews);
   }
 
@@ -61,10 +63,12 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
 
   _changeDataInDb(bool isFavourite) async {
     if (isFavourite) {
-      final dbTile = await GetIt.I.get<CountryDescriptionInteractor>().deleteNews(tileNews);
+      await GetIt.I
+          .get<CountryDescriptionInteractor>()
+          .deleteNews(tileNews.title);
       tileNews.isFavourite = false;
     } else {
-      final dbTile = await GetIt.I.get<CountryDescriptionInteractor>().insertNews(tileNews);
+      await GetIt.I.get<CountryDescriptionInteractor>().insertNews(tileNews);
       tileNews.isFavourite = true;
     }
     _inCountryDetails.add(tileNews);

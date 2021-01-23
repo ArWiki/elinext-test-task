@@ -11,9 +11,9 @@ class CountryFavoritesInteractorImpl implements CountryFavoritesInteractor {
   final CountryFavoritesMapper _mapper;
 
   CountryFavoritesInteractorImpl(
-      this._dbRepository,
-      this._mapper,
-      );
+    this._dbRepository,
+    this._mapper,
+  );
 
   @override
   Future<List<CountryTile>> getNews(int countNews) async {

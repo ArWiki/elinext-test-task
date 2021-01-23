@@ -1,4 +1,5 @@
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
+import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:elinext_test_task/presentation/utils/images.dart';
 import 'package:elinext_test_task/presentation/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import 'country_favorites_bloc.dart';
 import 'country_favorites_event.dart';
 
@@ -34,10 +34,14 @@ class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           final List<CountryTile> list = snapshot.data;
 
-          return list == null
-              ? Container(
-                  height: 0.0,
-                  width: 0.0,
+          return list == null || list.isEmpty
+              ? Center(
+                  child: Text(
+                    C.EMPTY,
+                    style: AppTextStyles.grey34(
+                      fontWeight: AppFonts.bold,
+                    ),
+                  ),
                 )
               : SmartRefresher(
                   enablePullDown: false,
@@ -68,8 +72,8 @@ class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
 
   _listTile(CountryTile tile) {
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, '/CountryDetails', arguments: tile),
+      onTap: () => Navigator.pushNamed(context, C.NAVIGATOR_ROUTER_DETAILS,
+          arguments: tile),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Container(

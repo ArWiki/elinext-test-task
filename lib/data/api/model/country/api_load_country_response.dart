@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 class ApiLoadCountryResponse {
   final status;
   final totalResults;
@@ -49,8 +47,7 @@ class ApiLoadCountryArticlesResponse {
     List<dynamic> json,
   );
 
-  static List<ApiLoadCountryArticlesResponse> fromJson(
-      List<dynamic> json) {
+  static List<ApiLoadCountryArticlesResponse> fromJson(List<dynamic> json) {
     final list = List<ApiLoadCountryArticlesResponse>();
 
     json.forEach((element) {
