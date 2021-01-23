@@ -2,6 +2,7 @@ import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.
 import 'package:elinext_test_task/presentation/utils/images.dart';
 import 'package:elinext_test_task/presentation/utils/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'country_details_bloc.dart';
 import 'country_details_event.dart';
@@ -27,7 +28,7 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
 
   _CountryDetailsScreenState(this.tile);
 
-  final _bloc = CountryDescriptionBlocImpl();
+  final _bloc = GetIt.I.get<CountryDetailsBloc>();
 
   @override
   void initState() {

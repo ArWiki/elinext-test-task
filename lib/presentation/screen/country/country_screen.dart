@@ -3,6 +3,7 @@ import 'package:elinext_test_task/presentation/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
 
 import 'country_bloc.dart';
 import 'country_event.dart';
@@ -18,7 +19,7 @@ class CountryScreen extends StatefulWidget {
 }
 
 class _CountryScreenState extends State<CountryScreen> {
-  final _bloc = CountryBlocImpl();
+  final _bloc = GetIt.I.get<CountryBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class _CountryScreenState extends State<CountryScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/CountryFavourites'),
+        onPressed: () => Navigator.pushNamed(context, '/CountryFavorites'),
         child: Icon(Icons.star_rate),
       ),
     );

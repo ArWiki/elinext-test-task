@@ -1,6 +1,6 @@
 import 'package:elinext_test_task/presentation/screen/country/country_screen.dart';
 import 'package:elinext_test_task/presentation/screen/country_details/country_details_screen.dart';
-import 'package:elinext_test_task/presentation/screen/country_favourites/country_favourites_screen.dart';
+import 'package:elinext_test_task/presentation/screen/country_favorites/country_favorites_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -9,26 +9,26 @@ class AppRouter {
       case '/':
         return MaterialPageRoute(
           builder: (_) => CountryScreen(
-            title: "Main",
+            title: 'Main',
           ),
         );
       case '/CountryDetails':
         return MaterialPageRoute(
           builder: (_) => CountryDetailsScreen(
             tile: settings.arguments,
-            title: "Details",
+            title: 'Details',
           ),
         );
-      case '/CountryFavourites':
+      case '/CountryFavorites':
         return MaterialPageRoute(
-          builder: (_) => CountryFavouritesScreen(
-            title: "Favourites",
+          builder: (_) => CountryFavoritesScreen(
+            title: 'Favorites',
           ),
         );
       default:
         return MaterialPageRoute(
           builder: (_) => CountryScreen(
-            title: "Main",
+            title: 'Main',
           ),
         );
     }

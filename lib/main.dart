@@ -2,17 +2,17 @@ import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'presentation/screen/country/country_screen.dart';
+import 'presentation/di/app_injector.dart';
 import 'presentation/screen/router/app_router.dart';
 
 Future<void> main() async {
-// Avoid errors caused by flutter upgrade.
-// Importing 'package:flutter/widgets.dart' is required.
+  // Avoid errors caused by flutter upgrade.
+  // Importing 'package:flutter/widgets.dart' is required.
   WidgetsFlutterBinding.ensureInitialized();
 
-  //await initInjector();
+  Database database = await _initDatabase();
 
-  await _initDatabase();
+  await initInjector(database);
 
   runApp(App(AppRouter()));
 }
@@ -20,7 +20,7 @@ Future<void> main() async {
 _initDatabase() async {
   var databasesPath = await getDatabasesPath();
   String path = join(databasesPath, C.DATABASE_NAME);
-  Database database = await openDatabase(path, version: 1,
+  return openDatabase(path, version: 1,
       onCreate: (Database db, int version) async {
     await db.execute(C.TABLE_INIT);
   });

@@ -1,10 +1,10 @@
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 
-abstract class CountryFavouritesMapper {
+abstract class CountryFavoritesMapper {
   List<CountryTile> toListCountryTile(List<Map<String, dynamic>> values);
 }
 
-class CountryFavouritesMapperImpl implements CountryFavouritesMapper {
+class CountryFavoritesMapperImpl implements CountryFavoritesMapper {
   @override
   List<CountryTile> toListCountryTile(List<Map<String, dynamic>> values) {
     final list = List<CountryTile>();
