@@ -124,6 +124,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   @override
   void dispose() {
+    _refreshController.dispose();
     _bloc.dispose();
     super.dispose();
   }

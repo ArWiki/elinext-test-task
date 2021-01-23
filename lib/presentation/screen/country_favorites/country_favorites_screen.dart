@@ -120,6 +120,7 @@ class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
 
   @override
   void dispose() {
+    _refreshController.dispose();
     _bloc.dispose();
     super.dispose();
   }
