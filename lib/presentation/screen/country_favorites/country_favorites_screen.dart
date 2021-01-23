@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'country_favorites_bloc.dart';
 import 'country_favorites_event.dart';
@@ -20,6 +21,7 @@ class CountryFavoritesScreen extends StatefulWidget {
 
 class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
   final _bloc = GetIt.I.get<CountryFavoritesBloc>();
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,9 @@ class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
                   height: 0.0,
                   width: 0.0,
                 )
-              : RefreshIndicator(
+              : SmartRefresher(
+                  enablePullDown: false,
+                  enablePullUp: true,
                   child: ListView.builder(
                     itemCount: list.length,
                     padding: EdgeInsets.all(20),
@@ -46,10 +50,16 @@ class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
                       return _listTile(tile);
                     },
                   ),
+                  onLoading: () async {
+                    _bloc.countryFavoritesEventSink
+                        .add(OnCountryFavoritesRefresh());
+                    _refreshController.loadComplete();
+                  },
                   onRefresh: () async {
                     _bloc.countryFavoritesEventSink
                         .add(OnCountryFavoritesRefresh());
                   },
+                  controller: _refreshController,
                 );
         },
       ),

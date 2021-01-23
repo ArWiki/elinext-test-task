@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'country_bloc.dart';
 import 'country_event.dart';
@@ -20,6 +21,7 @@ class CountryScreen extends StatefulWidget {
 
 class _CountryScreenState extends State<CountryScreen> {
   final _bloc = GetIt.I.get<CountryBloc>();
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,9 @@ class _CountryScreenState extends State<CountryScreen> {
                   height: 0.0,
                   width: 0.0,
                 )
-              : RefreshIndicator(
+              : SmartRefresher(
+                  enablePullDown: false,
+                  enablePullUp: true,
                   child: ListView.builder(
                     itemCount: list.length,
                     padding: EdgeInsets.all(20),
@@ -46,9 +50,15 @@ class _CountryScreenState extends State<CountryScreen> {
                       return _listTile(tile);
                     },
                   ),
+                  onLoading: () async {
+                    _bloc.countryEventSink.add(OnCountryRefresh());
+                    _refreshController.loadComplete();
+                  },
                   onRefresh: () async {
                     _bloc.countryEventSink.add(OnCountryRefresh());
+                    _refreshController.refreshCompleted();
                   },
+                  controller: _refreshController,
                 );
         },
       ),
@@ -61,7 +71,8 @@ class _CountryScreenState extends State<CountryScreen> {
 
   _listTile(CountryTile tile) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/CountryDetails', arguments: tile),
+      onTap: () =>
+          Navigator.pushNamed(context, '/CountryDetails', arguments: tile),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Container(

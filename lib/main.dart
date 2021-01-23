@@ -1,6 +1,8 @@
 import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path/path.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sqflite/sqflite.dart';
 import 'presentation/di/app_injector.dart';
 import 'presentation/screen/router/app_router.dart';
@@ -38,6 +40,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      localizationsDelegates: [
+        RefreshLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate
+      ],
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       onGenerateRoute: appRouter.onGenerateRoute,
     );
