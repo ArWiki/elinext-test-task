@@ -2,18 +2,18 @@ import 'package:elinext_test_task/data/api/repository/db/db_country_favourites_r
 import 'package:elinext_test_task/domain/mapper/country_favourites_mapper.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 
-abstract class CountryFavouritesInteractor {
+abstract class CountryFavoritesInteractor {
   Future<List<CountryTile>> getNews(int countNews);
 }
 
-class CountryFavouritesInteractorImpl implements CountryFavouritesInteractor {
-  final DbCountryFavouritesRepository _dbRepository;
-  final CountryFavouritesMapper _mapper;
+class CountryFavoritesInteractorImpl implements CountryFavoritesInteractor {
+  final DbCountryFavoritesRepository _dbRepository;
+  final CountryFavoritesMapper _mapper;
 
-  CountryFavouritesInteractorImpl(
-      this._dbRepository,
-      this._mapper,
-      );
+  CountryFavoritesInteractorImpl(
+    this._dbRepository,
+    this._mapper,
+  );
 
   @override
   Future<List<CountryTile>> getNews(int countNews) async {

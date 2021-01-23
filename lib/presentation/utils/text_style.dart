@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class AppFonts {
@@ -61,6 +60,17 @@ class AppTextStyles {
       TextStyle(
         color: Colors.blue,
         fontSize: font_size_14,
+        fontWeight: fontWeight,
+        decoration: decoration,
+      );
+
+  static grey34({
+    FontWeight fontWeight = AppFonts.regular,
+    TextDecoration decoration = TextDecoration.none,
+  }) =>
+      TextStyle(
+        color: Colors.grey,
+        fontSize: font_size_34,
         fontWeight: fontWeight,
         decoration: decoration,
       );

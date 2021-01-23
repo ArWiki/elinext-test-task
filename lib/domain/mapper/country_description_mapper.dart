@@ -29,16 +29,16 @@ class CountryDescriptionMapperImpl implements CountryDescriptionMapper {
     } else {
       return CountryTile(
           source: CountrySourceTile(
-            id: values[0]['source_id'],
-            name: values[0]['source_name'],
+            id: values.first['source_id'],
+            name: values.first['source_name'],
           ),
-          author: values[0]['author'],
-          title: values[0]['title'],
-          description: values[0]['description'],
-          url: values[0]['url'],
-          urlToImage: values[0]['urlToImage'],
-          publishedAt: values[0]['publishedAt'],
-          content: values[0]['content']);
+          author: values.first['author'],
+          title: values.first['title'],
+          description: values.first['description'],
+          url: values.first['url'],
+          urlToImage: values.first['urlToImage'],
+          publishedAt: values.first['publishedAt'],
+          content: values.first['content']);
     }
   }
 }

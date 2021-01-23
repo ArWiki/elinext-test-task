@@ -1,14 +1,13 @@
 import 'package:elinext_test_task/data/api/service/DbService.dart';
 import 'package:elinext_test_task/data/utils/const.dart';
-import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DbCountryDetailsRepository {
-  Future<List<Map<String, dynamic>>> get(CountryTile tile);
+  Future<List<Map<String, dynamic>>> get(String title);
 
   Future<int> insert(Map<String, dynamic> values);
 
-  Future<int> delete(CountryTile tile);
+  Future<int> delete(String title);
 }
 
 class DbCountryDetailsRepositoryImpl implements DbCountryDetailsRepository {
@@ -17,17 +16,17 @@ class DbCountryDetailsRepositoryImpl implements DbCountryDetailsRepository {
   DbCountryDetailsRepositoryImpl(this._dbService);
 
   @override
-  Future<List<Map<String, dynamic>>> get(CountryTile tile) => _dbService.query(
-    C.TABLE_COUNTRY,
-    where: 'title = ?',
-    whereArgs: [tile.title],
-  );
-
-  @override
-  Future<int> delete(CountryTile tile) => _dbService.delete(
+  Future<List<Map<String, dynamic>>> get(String title) => _dbService.query(
         C.TABLE_COUNTRY,
         where: 'title = ?',
-        whereArgs: [tile.title],
+        whereArgs: [title],
+      );
+
+  @override
+  Future<int> delete(String title) => _dbService.delete(
+        C.TABLE_COUNTRY,
+        where: 'title = ?',
+        whereArgs: [title],
       );
 
   @override

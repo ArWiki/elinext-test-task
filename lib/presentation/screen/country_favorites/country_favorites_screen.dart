@@ -1,24 +1,27 @@
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
+import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'package:elinext_test_task/presentation/utils/images.dart';
 import 'package:elinext_test_task/presentation/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'country_favorites_bloc.dart';
+import 'country_favorites_event.dart';
 
-import 'country_favourites_bloc.dart';
-import 'country_favourites_event.dart';
-
-class CountryFavouritesScreen extends StatefulWidget {
-  CountryFavouritesScreen({Key key, this.title}) : super(key: key);
+class CountryFavoritesScreen extends StatefulWidget {
+  CountryFavoritesScreen({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _CountryFavouritesScreenState createState() => _CountryFavouritesScreenState();
+  _CountryFavoritesScreenState createState() => _CountryFavoritesScreenState();
 }
 
-class _CountryFavouritesScreenState extends State<CountryFavouritesScreen> {
-  final _bloc = CountryFavouritesBlocImpl();
+class _CountryFavoritesScreenState extends State<CountryFavoritesScreen> {
+  final _bloc = GetIt.I.get<CountryFavoritesBloc>();
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +30,41 @@ class _CountryFavouritesScreenState extends State<CountryFavouritesScreen> {
         title: Text(widget.title),
       ),
       body: StreamBuilder(
-        stream: _bloc.countryFavourites,
+        stream: _bloc.countryFavorites,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           final List<CountryTile> list = snapshot.data;
 
-          return list == null
-              ? Container(
-            height: 0.0,
-            width: 0.0,
-          )
-              : RefreshIndicator(
-            child: ListView.builder(
-              itemCount: list.length,
-              padding: EdgeInsets.all(20),
-              itemBuilder: (ctx, index) {
-                final tile = list[index];
-                return _listTile(tile);
-              },
-            ),
-            onRefresh: () async {
-              _bloc.countryFavouritesEventSink.add(OnCountryFavouritesRefresh());
-            },
-          );
+          return list == null || list.isEmpty
+              ? Center(
+                  child: Text(
+                    C.EMPTY,
+                    style: AppTextStyles.grey34(
+                      fontWeight: AppFonts.bold,
+                    ),
+                  ),
+                )
+              : SmartRefresher(
+                  enablePullDown: false,
+                  enablePullUp: true,
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    padding: EdgeInsets.all(20),
+                    itemBuilder: (ctx, index) {
+                      final tile = list[index];
+                      return _listTile(tile);
+                    },
+                  ),
+                  onLoading: () async {
+                    _bloc.countryFavoritesEventSink
+                        .add(OnCountryFavoritesRefresh());
+                    _refreshController.loadComplete();
+                  },
+                  onRefresh: () async {
+                    _bloc.countryFavoritesEventSink
+                        .add(OnCountryFavoritesRefresh());
+                  },
+                  controller: _refreshController,
+                );
         },
       ),
     );
@@ -56,7 +72,8 @@ class _CountryFavouritesScreenState extends State<CountryFavouritesScreen> {
 
   _listTile(CountryTile tile) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/CountryDetails', arguments: tile),
+      onTap: () => Navigator.pushNamed(context, C.NAVIGATOR_ROUTER_DETAILS,
+          arguments: tile),
       child: Padding(
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: Container(
@@ -91,11 +108,11 @@ class _CountryFavouritesScreenState extends State<CountryFavouritesScreen> {
                   ),
                   tile.urlToImage == null
                       ? Image.asset(
-                    AppImages.no_image_available,
-                  )
+                          AppImages.no_image_available,
+                        )
                       : Image.network(
-                    tile.urlToImage,
-                  ),
+                          tile.urlToImage,
+                        ),
                 ],
               ),
             ),
@@ -107,6 +124,7 @@ class _CountryFavouritesScreenState extends State<CountryFavouritesScreen> {
 
   @override
   void dispose() {
+    _refreshController.dispose();
     _bloc.dispose();
     super.dispose();
   }
