@@ -16,27 +16,8 @@ class AppFonts {
 
 class AppTextStyles {
   ///region font dimens
-  static const font_size_60 = 60.0;
   static const font_size_34 = 34.0;
-  static const font_size_32 = 32.0;
-  static const font_size_30 = 30.0;
-  static const font_size_28 = 28.0;
-  static const font_size_26 = 26.0;
-  static const font_size_24 = 24.0;
-  static const font_size_22 = 22.0;
-  static const font_size_20 = 20.0;
-  static const font_size_18 = 18.0;
-  static const font_size_17 = 17.0;
-  static const font_size_16 = 16.0;
-  static const font_size_15 = 15.0;
   static const font_size_14 = 14.0;
-  static const font_size_13 = 13.0;
-  static const font_size_12 = 12.0;
-  static const font_size_11 = 11.0;
-  static const font_size_10 = 10.0;
-  static const font_size_9 = 9.0;
-  static const font_size_8 = 8.0;
-  static const font_size_7 = 7.0;
 
   ///endregion
 

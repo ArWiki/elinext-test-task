@@ -112,7 +112,6 @@ class _CountryScreenState extends State<CountryScreen> {
                         )
                       : Image.network(
                           tile.urlToImage,
-                          //style: AppTextStyles.greyDark12(),
                         ),
                 ],
               ),

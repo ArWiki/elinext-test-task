@@ -173,7 +173,6 @@ class _CountryDetailsScreenState extends State<CountryDetailsScreen> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: Image.network(
                   tile.urlToImage,
-                  //style: AppTextStyles.greyDark12(),
                 ),
               ),
         tile.description == null

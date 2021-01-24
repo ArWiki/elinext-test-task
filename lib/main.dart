@@ -43,7 +43,6 @@ class App extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate
       ],
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
       onGenerateRoute: appRouter.onGenerateRoute,
     );
   }
