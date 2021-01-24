@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:elinext_test_task/domain/interactor/country_description_interactor.dart';
+import 'package:elinext_test_task/domain/interactor/country_details_interactor.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -44,7 +44,7 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
   @override
   init(CountryTile tile) async {
     final dbTile =
-        await GetIt.I.get<CountryDescriptionInteractor>().getNews(tile.title);
+        await GetIt.I.get<CountryDetailsInteractor>().getNews(tile.title);
     tileNews = GetIt.I
         .get<CountryDetailsViewMapper>()
         .toCountryDetailsTile(dbTile, tile);
@@ -64,11 +64,11 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
   _changeDataInDb(bool isFavourite) async {
     if (isFavourite) {
       await GetIt.I
-          .get<CountryDescriptionInteractor>()
+          .get<CountryDetailsInteractor>()
           .deleteNews(tileNews.title);
       tileNews.isFavourite = false;
     } else {
-      await GetIt.I.get<CountryDescriptionInteractor>().insertNews(tileNews);
+      await GetIt.I.get<CountryDetailsInteractor>().insertNews(tileNews);
       tileNews.isFavourite = true;
     }
     _inCountryDetails.add(tileNews);

@@ -1,12 +1,12 @@
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 
-abstract class CountryDescriptionMapper {
+abstract class CountryDetailsMapper {
   Map<String, dynamic> toMap(CountryTile tile);
 
   CountryTile toCountryTile(List<Map<String, dynamic>> values);
 }
 
-class CountryDescriptionMapperImpl implements CountryDescriptionMapper {
+class CountryDetailsMapperImpl implements CountryDetailsMapper {
   @override
   Map<String, dynamic> toMap(CountryTile tile) {
     final map = Map<String, dynamic>();

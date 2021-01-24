@@ -1,8 +1,8 @@
 import 'package:elinext_test_task/data/api/repository/db/db_country_details_repository.dart';
-import 'package:elinext_test_task/domain/mapper/country_description_mapper.dart';
+import 'package:elinext_test_task/domain/mapper/country_details_mapper.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 
-abstract class CountryDescriptionInteractor {
+abstract class CountryDetailsInteractor {
   Future<CountryTile> getNews(String title);
 
   Future<int> insertNews(CountryTile tile);
@@ -10,11 +10,11 @@ abstract class CountryDescriptionInteractor {
   Future<int> deleteNews(String title);
 }
 
-class CountryDescriptionInteractorImpl implements CountryDescriptionInteractor {
+class CountryDetailsInteractorImpl implements CountryDetailsInteractor {
   final DbCountryDetailsRepository _dbRepository;
-  final CountryDescriptionMapper _mapper;
+  final CountryDetailsMapper _mapper;
 
-  CountryDescriptionInteractorImpl(
+  CountryDetailsInteractorImpl(
     this._dbRepository,
     this._mapper,
   );
