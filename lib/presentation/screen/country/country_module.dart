@@ -18,7 +18,10 @@ initCountryModule() {
     () => CountryViewMapperImpl(),
   );
   GetIt.I.registerFactory<CountryBloc>(
-    () => CountryBlocImpl(),
+    () => CountryBlocImpl(
+      GetIt.I.get(),
+      GetIt.I.get(),
+    ),
   );
   GetIt.I.registerFactory<CountryInteractor>(
     () => CountryInteractorImpl(

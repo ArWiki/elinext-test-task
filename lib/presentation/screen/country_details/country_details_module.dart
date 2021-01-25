@@ -7,7 +7,10 @@ import 'country_details_view_mapper.dart';
 
 initCountryDetailsModule() {
   GetIt.I.registerFactory<CountryDetailsBloc>(
-    () => CountryDetailsBlocImpl(),
+    () => CountryDetailsBlocImpl(
+      GetIt.I.get(),
+      GetIt.I.get(),
+    ),
   );
   GetIt.I.registerFactory<CountryDetailsMapper>(
     () => CountryDetailsMapperImpl(),
