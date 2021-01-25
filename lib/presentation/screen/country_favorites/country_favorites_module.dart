@@ -6,7 +6,9 @@ import 'country_favorites_bloc.dart';
 
 initCountryFavoritesModule() {
   GetIt.I.registerFactory<CountryFavoritesBloc>(
-    () => CountryFavoritesBlocImpl(),
+    () => CountryFavoritesBlocImpl(
+      GetIt.I.get(),
+    ),
   );
   GetIt.I.registerFactory<CountryFavoritesMapper>(
     () => CountryFavoritesMapperImpl(),

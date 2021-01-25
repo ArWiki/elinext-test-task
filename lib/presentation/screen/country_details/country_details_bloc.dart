@@ -21,6 +21,10 @@ abstract class CountryDetailsBloc {
 }
 
 class CountryDetailsBlocImpl extends CountryDetailsBloc {
+  final CountryDetailsInteractor _countryDetailsInteractor;
+
+  final CountryDetailsViewMapper _detailsViewMapper;
+
   var tileNews = CountryDetailsTile();
 
   final _countryStateController = StreamController<dynamic>();
@@ -37,17 +41,15 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
   @override
   StreamSink<dynamic> get _inCountryDetails => _countryStateController.sink;
 
-  CountryDetailsBlocImpl() {
+  CountryDetailsBlocImpl(
+      this._countryDetailsInteractor, this._detailsViewMapper) {
     _countryEventController.stream.listen(_mapEventToState);
   }
 
   @override
   init(CountryTile tile) async {
-    final dbTile =
-        await GetIt.I.get<CountryDetailsInteractor>().getNews(tile.title);
-    tileNews = GetIt.I
-        .get<CountryDetailsViewMapper>()
-        .toCountryDetailsTile(dbTile, tile);
+    final dbTile = await _countryDetailsInteractor.getNews(tile.title);
+    tileNews = _detailsViewMapper.toCountryDetailsTile(dbTile, tile);
     _inCountryDetails.add(tileNews);
   }
 
@@ -63,9 +65,7 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
 
   _changeDataInDb(bool isFavourite) async {
     if (isFavourite) {
-      await GetIt.I
-          .get<CountryDetailsInteractor>()
-          .deleteNews(tileNews.title);
+      await GetIt.I.get<CountryDetailsInteractor>().deleteNews(tileNews.title);
       tileNews.isFavourite = false;
     } else {
       await GetIt.I.get<CountryDetailsInteractor>().insertNews(tileNews);

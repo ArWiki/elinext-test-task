@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:elinext_test_task/domain/interactor/country_favourites_interactor.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:elinext_test_task/presentation/utils/const.dart';
-import 'package:get_it/get_it.dart';
 import 'country_favorites_event.dart';
 
 abstract class CountryFavoritesBloc {
@@ -18,6 +17,8 @@ abstract class CountryFavoritesBloc {
 }
 
 class CountryFavoritesBlocImpl extends CountryFavoritesBloc {
+  final CountryFavoritesInteractor _countryFavoritesInteractor;
+
   final list = List<CountryTile>();
 
   final _countryStateController = StreamController<dynamic>();
@@ -34,15 +35,14 @@ class CountryFavoritesBlocImpl extends CountryFavoritesBloc {
   Sink<CountryFavoritesEvent> get countryFavoritesEventSink =>
       _countryEventController.sink;
 
-  CountryFavoritesBlocImpl() {
+  CountryFavoritesBlocImpl(this._countryFavoritesInteractor) {
     _countryEventController.stream.listen(_mapEventToState);
     init();
   }
 
   @override
   init() async {
-    final dbList = await GetIt.I
-        .get<CountryFavoritesInteractor>()
+    final dbList = await _countryFavoritesInteractor
         .getNews(list.length + C.DEFAULT_COUNT_NEWS);
 
     list.clear();
