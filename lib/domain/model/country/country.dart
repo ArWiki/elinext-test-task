@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
+
 class Country {
   final String status;
   final int totalResults;
   final List<CountryArticles> articles;
 
-  Country(
+  Country({
     this.status,
     this.totalResults,
-    this.articles,
-  );
+    @required this.articles,
+  });
 }
 
 class CountryArticles {
@@ -20,7 +22,7 @@ class CountryArticles {
   final String publishedAt;
   final String content;
 
-  CountryArticles(
+  CountryArticles({
     this.source,
     this.author,
     this.title,
@@ -29,15 +31,15 @@ class CountryArticles {
     this.urlToImage,
     this.publishedAt,
     this.content,
-  );
+  });
 }
 
 class CountryArticlesSource {
   final String id;
   final String name;
 
-  CountryArticlesSource(
+  CountryArticlesSource({
     this.id,
     this.name,
-  );
+  });
 }

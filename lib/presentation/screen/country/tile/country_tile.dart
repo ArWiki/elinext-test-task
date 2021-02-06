@@ -1,4 +1,6 @@
-class CountryTile {
+import 'package:elinext_test_task/domain/model/country/country.dart';
+
+class CountryTile extends Country {
   final CountrySourceTile source;
   final String author;
   final String title;
@@ -17,7 +19,23 @@ class CountryTile {
     this.urlToImage,
     this.publishedAt,
     this.content,
-  });
+  }) : super(
+          articles: [
+            CountryArticles(
+              source: CountryArticlesSource(
+                id: source?.id,
+                name: source?.name,
+              ),
+              author: author,
+              title: title,
+              description: description,
+              url: url,
+              urlToImage: urlToImage,
+              publishedAt: publishedAt,
+              content: content,
+            ),
+          ],
+        );
 }
 
 class CountrySourceTile {

@@ -1,17 +1,23 @@
+import 'package:elinext_test_task/domain/model/country/country.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'tile/country_details_tile.dart';
 
 abstract class CountryDetailsViewMapper {
-  CountryDetailsTile toCountryDetailsTile(CountryTile dbTile, CountryTile tile);
+  CountryDetailsTile toCountryDetailsTile(
+    CountryArticles dbArticles,
+    CountryTile tile,
+  );
 }
 
 class CountryDetailsViewMapperImpl implements CountryDetailsViewMapper {
   @override
   CountryDetailsTile toCountryDetailsTile(
-      CountryTile dbTile, CountryTile tile) {
+    CountryArticles dbArticles,
+    CountryTile tile,
+  ) {
     var tileNews = CountryDetailsTile();
 
-    if (dbTile == null || dbTile.title == null) {
+    if (dbArticles == null || dbArticles.title == null) {
       tileNews = CountryDetailsTile(
         source: tile?.source,
         author: tile?.author,
@@ -25,14 +31,17 @@ class CountryDetailsViewMapperImpl implements CountryDetailsViewMapper {
       );
     } else {
       tileNews = CountryDetailsTile(
-        source: dbTile?.source,
-        author: dbTile?.author,
-        title: dbTile?.title,
-        description: dbTile?.description,
-        url: dbTile?.url,
-        urlToImage: dbTile?.urlToImage,
-        publishedAt: dbTile?.publishedAt,
-        content: dbTile?.content,
+        source: CountrySourceTile(
+          id: dbArticles?.source?.id,
+          name: dbArticles?.source?.name,
+        ),
+        author: dbArticles?.author,
+        title: dbArticles?.title,
+        description: dbArticles?.description,
+        url: dbArticles?.url,
+        urlToImage: dbArticles?.urlToImage,
+        publishedAt: dbArticles?.publishedAt,
+        content: dbArticles?.content,
         isFavourite: true,
       );
     }
