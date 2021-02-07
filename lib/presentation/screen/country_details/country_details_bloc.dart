@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:elinext_test_task/domain/interactor/country_details_interactor.dart';
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'country_details_event.dart';
 import 'country_details_view_mapper.dart';
@@ -48,8 +47,8 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
 
   @override
   init(CountryTile tile) async {
-    final dbTile = await _countryDetailsInteractor.getNews(tile.title);
-    tileNews = _detailsViewMapper.toCountryDetailsTile(dbTile, tile);
+    final dbArticles = await _countryDetailsInteractor.getNews(tile.title);
+    tileNews = _detailsViewMapper.toCountryDetailsTile(dbArticles, tile);
     _inCountryDetails.add(tileNews);
   }
 
@@ -65,10 +64,10 @@ class CountryDetailsBlocImpl extends CountryDetailsBloc {
 
   _changeDataInDb(bool isFavourite) async {
     if (isFavourite) {
-      await GetIt.I.get<CountryDetailsInteractor>().deleteNews(tileNews.title);
+      await _countryDetailsInteractor.deleteNews(tileNews.title);
       tileNews.isFavourite = false;
     } else {
-      await GetIt.I.get<CountryDetailsInteractor>().insertNews(tileNews);
+      await _countryDetailsInteractor.insertNews(tileNews);
       tileNews.isFavourite = true;
     }
     _inCountryDetails.add(tileNews);

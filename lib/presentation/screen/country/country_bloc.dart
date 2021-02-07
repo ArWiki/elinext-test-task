@@ -42,7 +42,7 @@ class CountryBlocImpl extends CountryBloc {
 
   _getCountryNews() async {
     final countryNews = await _countryInteractor
-        .getCountryNews(list.length + C.DEFAULT_COUNT_NEWS);
+        .loadCountryNews(list.length + C.DEFAULT_COUNT_NEWS);
 
     list.clear();
     list.addAll(

@@ -3,6 +3,7 @@ import 'package:elinext_test_task/domain/interactor/country_favourites_interacto
 import 'package:elinext_test_task/presentation/screen/country/tile/country_tile.dart';
 import 'package:elinext_test_task/presentation/utils/const.dart';
 import 'country_favorites_event.dart';
+import 'country_favorites_mapper.dart';
 
 abstract class CountryFavoritesBloc {
   Stream<dynamic> get countryFavorites;
@@ -18,6 +19,8 @@ abstract class CountryFavoritesBloc {
 
 class CountryFavoritesBlocImpl extends CountryFavoritesBloc {
   final CountryFavoritesInteractor _countryFavoritesInteractor;
+
+  final CountryFavoritesViewMapper _viewMapper;
 
   final list = List<CountryTile>();
 
@@ -35,7 +38,7 @@ class CountryFavoritesBlocImpl extends CountryFavoritesBloc {
   Sink<CountryFavoritesEvent> get countryFavoritesEventSink =>
       _countryEventController.sink;
 
-  CountryFavoritesBlocImpl(this._countryFavoritesInteractor) {
+  CountryFavoritesBlocImpl(this._countryFavoritesInteractor, this._viewMapper) {
     _countryEventController.stream.listen(_mapEventToState);
     init();
   }
@@ -47,7 +50,7 @@ class CountryFavoritesBlocImpl extends CountryFavoritesBloc {
 
     list.clear();
     list.addAll(
-      dbList,
+      _viewMapper.toItemList(dbList),
     );
 
     _inCountryFavorites.add(list);
